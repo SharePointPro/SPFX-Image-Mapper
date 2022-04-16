@@ -1,7 +1,7 @@
-# SPFX-Image-Mapper
-SharePoint SPFX  Web part for mapping an image with clickable sections.
+# SPFx-Image-Mapper
+SharePoint SPFx  Web part for mapping an image with clickable sections.
 
-SPFX Version: 1.14 
+SPFx Version: 1.14 
 Framework: React
 
 How it works:
