@@ -9,3 +9,4 @@ user clicks on the areas and is directed to url.
 
 App uses <SVG> to create clickable sections.
   
+![Clickable Image](https://creately.com/images/diagram-examples/org_charts_no_1-big.jpg)
