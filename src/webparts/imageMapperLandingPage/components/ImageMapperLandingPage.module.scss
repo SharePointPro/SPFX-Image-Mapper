@@ -1,11 +1,19 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
+@import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .imageMapperLandingPage {
-  .image { 
-    width: 100%; 
+  height: calc(100vh - 270px);
+  svg {
+    height: 100%;
+  }
+  .image {
+    width: 100%;
   }
   .pointer {
     cursor: pointer;
+  }
+  .pointer rect:hover {
+    opacity: 1;
+    fill: rgba(255, 255, 255, 0.3) !important;
   }
   .container {
     max-width: 700px;
@@ -57,7 +65,8 @@
     // Basic Button
     outline: transparent;
     position: relative;
-    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system,
+      BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-size: $ms-font-size-m;
     font-weight: $ms-font-weight-regular;
