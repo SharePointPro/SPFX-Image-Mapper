@@ -3,7 +3,7 @@
   "solution": {
     "name": "image-mapper-client-side-solution",
     "id": "e1868387-f3ff-420f-9024-23d1e960ee0d",
-    "version": "1.0.0.2",
+    "version": "1.0.0.3",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "developer": {

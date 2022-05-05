@@ -26,10 +26,19 @@ export default class ImageMapperLandingPage extends React.Component<IImageMapper
           <image width={this.props.imageWidth} height={this.props.imageHeight} xlinkHref={this.props.imageUrl}></image>
 
           {this.props.items.map((imageMapping, index) => {
-            return (
+            console.log("imageMapping", imageMapping);
+            if (imageMapping.imapType === "Path"){
+              return (
+                <a className={styles.pointer} onClick={() => this.onClick(imageMapping.url, imageMapping.openInNewWindow)}>
+                  <path d={imageMapping.d} fill="#fff" opacity="0"></path>
+                </a>);
+  
+            } else {
+             return (
               <a className={styles.pointer} onClick={() => this.onClick(imageMapping.url, imageMapping.openInNewWindow)}>
                 <rect x={imageMapping.x} y={imageMapping.y} fill="#fff" opacity="0" width={imageMapping.width} height={imageMapping.height}></rect>
               </a>);
+            }
           })}
 
         </svg>

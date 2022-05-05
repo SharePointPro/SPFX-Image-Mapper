@@ -139,13 +139,19 @@ var ImageMapperLandingPage = /** @class */ (function (_super) {
     };
     ImageMapperLandingPage.prototype.render = function () {
         var _this = this;
-        console.log("this.props", this.props);
         return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: _ImageMapperLandingPage_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].imageMapperLandingPage },
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("svg", { version: "1.1", xmlns: "http://www.w3.org/2000/svg", xmlnsXlink: "http://www.w3.org/1999/xlink", viewBox: "0 0 1600 902" },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("image", { width: this.props.imageWidth, height: this.props.imageHeight, xlinkHref: this.props.imageUrl }),
                 this.props.items.map(function (imageMapping, index) {
-                    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("a", { className: _ImageMapperLandingPage_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].pointer, onClick: function () { return _this.onClick(imageMapping.url, imageMapping.openInNewWindow); } },
-                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("rect", { x: imageMapping.x, y: imageMapping.y, fill: "#fff", opacity: "0", width: imageMapping.width, height: imageMapping.height })));
+                    console.log("imageMapping", imageMapping);
+                    if (imageMapping.imapType === "Path") {
+                        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("a", { className: _ImageMapperLandingPage_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].pointer, onClick: function () { return _this.onClick(imageMapping.url, imageMapping.openInNewWindow); } },
+                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("path", { d: imageMapping.d, fill: "#fff", opacity: "0" })));
+                    }
+                    else {
+                        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("a", { className: _ImageMapperLandingPage_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].pointer, onClick: function () { return _this.onClick(imageMapping.url, imageMapping.openInNewWindow); } },
+                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("rect", { x: imageMapping.x, y: imageMapping.y, fill: "#fff", opacity: "0", width: imageMapping.width, height: imageMapping.height })));
+                    }
                 }))));
     };
     return ImageMapperLandingPage;
@@ -327,47 +333,96 @@ var ImageMapperLandingPageWebPart = /** @class */ (function (_super) {
         this.properties.items.splice(value, 1);
     };
     ImageMapperLandingPageWebPart.prototype.createNewGroup = function (iMapArea, index) {
-        return {
-            groupName: "Mapped Area " + (index + 1),
-            groupFields: [
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].x", {
-                    label: "X",
-                    value: iMapArea.x,
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].y", {
-                    label: "Y",
-                    value: iMapArea.y,
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].width", {
-                    label: "Width",
-                    value: iMapArea.width,
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].height", {
-                    label: "Height",
-                    value: iMapArea.height,
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].url", {
-                    label: "Url",
-                    value: iMapArea.url,
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneCheckbox"])("items[" + index + "].openInNewWindow", {
-                    checked: iMapArea.openInNewWindow,
-                    text: "Open in new window",
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("deleteButton", {
-                    text: "Delete",
-                    buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
-                    icon: "RecycleBin",
-                    onClick: this.onDeleteButtonClick.bind(this, index),
-                }),
-                Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("addButton", {
-                    text: "Add",
-                    buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
-                    icon: "CirclePlus",
-                    onClick: this.onAddButtonClick.bind(this),
-                }),
-            ],
-        };
+        if (iMapArea.imapType === "Path") {
+            return {
+                groupName: "Mapped Area " + (index + 1),
+                groupFields: [
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneDropdown"])("items[" + index + "].imapType", {
+                        label: "Map Area Type",
+                        selectedKey: iMapArea.imapType,
+                        options: [
+                            { key: "Rectangle", text: "Rectangle" },
+                            { key: "Path", text: "Path" },
+                        ],
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].d", {
+                        label: "D",
+                        value: iMapArea.d,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].url", {
+                        label: "Url",
+                        value: iMapArea.url,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneCheckbox"])("items[" + index + "].openInNewWindow", {
+                        checked: iMapArea.openInNewWindow,
+                        text: "Open in new window",
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("deleteButton", {
+                        text: "Delete",
+                        buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
+                        icon: "RecycleBin",
+                        onClick: this.onDeleteButtonClick.bind(this, index),
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("addButton", {
+                        text: "Add",
+                        buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
+                        icon: "CirclePlus",
+                        onClick: this.onAddButtonClick.bind(this),
+                    }),
+                ],
+            };
+        }
+        else {
+            return {
+                groupName: "Mapped Area " + (index + 1),
+                groupFields: [
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneDropdown"])("items[" + index + "].imapType", {
+                        label: "Map Area Type",
+                        selectedKey: iMapArea.imapType,
+                        options: [
+                            { key: "Rectangle", text: "Rectangle" },
+                            { key: "Path", text: "Path" },
+                        ],
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].x", {
+                        label: "X",
+                        value: iMapArea.x,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].y", {
+                        label: "Y",
+                        value: iMapArea.y,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].width", {
+                        label: "Width",
+                        value: iMapArea.width,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].height", {
+                        label: "Height",
+                        value: iMapArea.height,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneTextField"])("items[" + index + "].url", {
+                        label: "Url",
+                        value: iMapArea.url,
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneCheckbox"])("items[" + index + "].openInNewWindow", {
+                        checked: iMapArea.openInNewWindow,
+                        text: "Open in new window",
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("deleteButton", {
+                        text: "Delete",
+                        buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
+                        icon: "RecycleBin",
+                        onClick: this.onDeleteButtonClick.bind(this, index),
+                    }),
+                    Object(_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButton"])("addButton", {
+                        text: "Add",
+                        buttonType: _microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_3__["PropertyPaneButtonType"].Command,
+                        icon: "CirclePlus",
+                        onClick: this.onAddButtonClick.bind(this),
+                    }),
+                ],
+            };
+        }
     };
     ImageMapperLandingPageWebPart.prototype.getPropertyPaneConfiguration = function () {
         var _this = this;
@@ -401,7 +456,7 @@ var ImageMapperLandingPageWebPart = /** @class */ (function (_super) {
                             onClick: this.onAddButtonClick.bind(this),
                         }),
                     ],
-                }
+                },
             ],
         });
         console.log(this.properties);
@@ -410,9 +465,7 @@ var ImageMapperLandingPageWebPart = /** @class */ (function (_super) {
                 header: {
                     description: "Map Area " + (index + 1),
                 },
-                groups: [
-                    _this.createNewGroup(item, index)
-                ]
+                groups: [_this.createNewGroup(item, index)],
             });
         });
         return {
@@ -446,7 +499,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_UWqr__;
 
 exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "JPst")(false);
 // Module
-exports.push([module.i, ".imageMapperLandingPage_32923665 .image_32923665{width:100%}.imageMapperLandingPage_32923665 .pointer_32923665{cursor:pointer}.imageMapperLandingPage_32923665 .container_32923665{max-width:700px;margin:0 auto;box-shadow:0 2px 4px 0 rgba(0,0,0,.2),0 25px 50px 0 rgba(0,0,0,.1)}.imageMapperLandingPage_32923665 .row_32923665{margin:0 -8px;box-sizing:border-box;zoom:1;color:#fff;background-color:#005a9e;padding:20px}.imageMapperLandingPage_32923665 .row_32923665:after,.imageMapperLandingPage_32923665 .row_32923665:before{display:table;content:\"\";line-height:0}.imageMapperLandingPage_32923665 .row_32923665:after{clear:both}.imageMapperLandingPage_32923665 .column_32923665{position:relative;min-height:1px;padding-left:8px;padding-right:8px;box-sizing:border-box}[dir=ltr] .imageMapperLandingPage_32923665 .column_32923665{float:left}[dir=rtl] .imageMapperLandingPage_32923665 .column_32923665{float:right}.imageMapperLandingPage_32923665 .column_32923665 .ms-Grid_32923665{padding:0}@media (min-width:640px){.imageMapperLandingPage_32923665 .column_32923665{width:83.3333333333%}}@media (min-width:1024px){.imageMapperLandingPage_32923665 .column_32923665{width:66.6666666667%}}@media (min-width:1024px){[dir=ltr] .imageMapperLandingPage_32923665 .column_32923665{left:16.6666666667%}[dir=rtl] .imageMapperLandingPage_32923665 .column_32923665{right:16.6666666667%}}@media (min-width:640px){[dir=ltr] .imageMapperLandingPage_32923665 .column_32923665{left:8.3333333333%}[dir=rtl] .imageMapperLandingPage_32923665 .column_32923665{right:8.3333333333%}}.imageMapperLandingPage_32923665 .title_32923665{font-size:21px;font-weight:100;color:#fff}.imageMapperLandingPage_32923665 .description_32923665,.imageMapperLandingPage_32923665 .subTitle_32923665{font-size:17px;font-weight:300;color:#fff}.imageMapperLandingPage_32923665 .button_32923665{text-decoration:none;height:32px;min-width:80px;background-color:#0078d4;border-color:#0078d4;color:#fff;outline:transparent;position:relative;font-family:Segoe UI WestEuropean,Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;font-weight:400;border-width:0;text-align:center;cursor:pointer;display:inline-block;padding:0 16px}.imageMapperLandingPage_32923665 .button_32923665 .label_32923665{font-weight:600;font-size:14px;height:32px;line-height:32px;margin:0 4px;vertical-align:top;display:inline-block}", ""]);
+exports.push([module.i, ".imageMapperLandingPage_02ee115a{height:calc(100vh - 270px)}.imageMapperLandingPage_02ee115a svg{height:100%}.imageMapperLandingPage_02ee115a .image_02ee115a{width:100%}.imageMapperLandingPage_02ee115a .pointer_02ee115a{cursor:pointer}.imageMapperLandingPage_02ee115a .pointer_02ee115a path:hover,.imageMapperLandingPage_02ee115a .pointer_02ee115a rect:hover{opacity:1;fill:hsla(0,0%,100%,.3)!important}.imageMapperLandingPage_02ee115a .container_02ee115a{max-width:700px;margin:0 auto;box-shadow:0 2px 4px 0 rgba(0,0,0,.2),0 25px 50px 0 rgba(0,0,0,.1)}.imageMapperLandingPage_02ee115a .row_02ee115a{margin:0 -8px;box-sizing:border-box;zoom:1;color:#fff;background-color:#005a9e;padding:20px}.imageMapperLandingPage_02ee115a .row_02ee115a:after,.imageMapperLandingPage_02ee115a .row_02ee115a:before{display:table;content:\"\";line-height:0}.imageMapperLandingPage_02ee115a .row_02ee115a:after{clear:both}.imageMapperLandingPage_02ee115a .column_02ee115a{position:relative;min-height:1px;padding-left:8px;padding-right:8px;box-sizing:border-box}[dir=ltr] .imageMapperLandingPage_02ee115a .column_02ee115a{float:left}[dir=rtl] .imageMapperLandingPage_02ee115a .column_02ee115a{float:right}.imageMapperLandingPage_02ee115a .column_02ee115a .ms-Grid_02ee115a{padding:0}@media (min-width:640px){.imageMapperLandingPage_02ee115a .column_02ee115a{width:83.3333333333%}}@media (min-width:1024px){.imageMapperLandingPage_02ee115a .column_02ee115a{width:66.6666666667%}}@media (min-width:1024px){[dir=ltr] .imageMapperLandingPage_02ee115a .column_02ee115a{left:16.6666666667%}[dir=rtl] .imageMapperLandingPage_02ee115a .column_02ee115a{right:16.6666666667%}}@media (min-width:640px){[dir=ltr] .imageMapperLandingPage_02ee115a .column_02ee115a{left:8.3333333333%}[dir=rtl] .imageMapperLandingPage_02ee115a .column_02ee115a{right:8.3333333333%}}.imageMapperLandingPage_02ee115a .title_02ee115a{font-size:21px;font-weight:100;color:#fff}.imageMapperLandingPage_02ee115a .description_02ee115a,.imageMapperLandingPage_02ee115a .subTitle_02ee115a{font-size:17px;font-weight:300;color:#fff}.imageMapperLandingPage_02ee115a .button_02ee115a{text-decoration:none;height:32px;min-width:80px;background-color:#0078d4;border-color:#0078d4;color:#fff;outline:transparent;position:relative;font-family:Segoe UI WestEuropean,Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;font-weight:400;border-width:0;text-align:center;cursor:pointer;display:inline-block;padding:0 16px}.imageMapperLandingPage_02ee115a .button_02ee115a .label_02ee115a{font-weight:600;font-size:14px;height:32px;line-height:32px;margin:0 4px;vertical-align:top;display:inline-block}", ""]);
 
 
 /***/ }),
@@ -834,18 +887,18 @@ __webpack_require__.r(__webpack_exports__);
 /* tslint:disable */
 __webpack_require__(/*! ./ImageMapperLandingPage.module.css */ "pSp2");
 var styles = {
-    imageMapperLandingPage: 'imageMapperLandingPage_32923665',
-    image: 'image_32923665',
-    pointer: 'pointer_32923665',
-    container: 'container_32923665',
-    row: 'row_32923665',
-    column: 'column_32923665',
-    'ms-Grid': 'ms-Grid_32923665',
-    title: 'title_32923665',
-    subTitle: 'subTitle_32923665',
-    description: 'description_32923665',
-    button: 'button_32923665',
-    label: 'label_32923665'
+    imageMapperLandingPage: 'imageMapperLandingPage_02ee115a',
+    image: 'image_02ee115a',
+    pointer: 'pointer_02ee115a',
+    container: 'container_02ee115a',
+    row: 'row_02ee115a',
+    column: 'column_02ee115a',
+    'ms-Grid': 'ms-Grid_02ee115a',
+    title: 'title_02ee115a',
+    subTitle: 'subTitle_02ee115a',
+    description: 'description_02ee115a',
+    button: 'button_02ee115a',
+    label: 'label_02ee115a'
 };
 /* harmony default export */ __webpack_exports__["default"] = (styles);
 /* tslint:enable */ 

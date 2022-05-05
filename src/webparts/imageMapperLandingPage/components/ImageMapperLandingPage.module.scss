@@ -11,7 +11,7 @@
   .pointer {
     cursor: pointer;
   }
-  .pointer rect:hover {
+  .pointer rect:hover, .pointer path:hover {
     opacity: 1;
     fill: rgba(255, 255, 255, 0.3) !important;
   }

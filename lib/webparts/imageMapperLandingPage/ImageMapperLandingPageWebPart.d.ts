@@ -8,6 +8,8 @@ export interface IMapArea {
     height?: string;
     url?: string;
     openInNewWindow?: boolean;
+    imapType?: string;
+    d?: string;
 }
 export interface IImageMapperLandingPageWebPartProps {
     description: string;

@@ -39,7 +39,7 @@
     "scriptResources": {
       "image-mapper-landing-page-web-part": {
         "type": "path",
-        "path": "image-mapper-landing-page-web-part_762e7155325257961444.js"
+        "path": "image-mapper-landing-page-web-part_e72a7399bd63032efcb2.js"
       },
       "@microsoft/sp-property-pane": {
         "type": "component",

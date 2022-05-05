@@ -6,6 +6,8 @@ import {
   PropertyPaneButton,
   PropertyPaneButtonType,
   PropertyPaneCheckbox,
+  PropertyPaneChoiceGroup,
+  PropertyPaneDropdown,
   PropertyPaneTextField,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
@@ -25,6 +27,8 @@ export interface IMapArea {
   height?: string;
   url?: string;
   openInNewWindow?: boolean;
+  imapType?: string;
+  d?: string;
 }
 
 export interface IImageMapperLandingPageWebPartProps {
@@ -58,60 +62,108 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
   }
 
   protected onAddButtonClick(value: any) {
-   
     this.properties.items.push({});
   }
 
-  protected onDeleteButtonClick (value: any) {
+  protected onDeleteButtonClick(value: any) {
     this.properties.items.splice(value, 1);
   }
 
   private createNewGroup(iMapArea: IMapArea, index: number): any {
-    return {
-      groupName: `Mapped Area ${index + 1}`,
-      groupFields: [
-        PropertyPaneTextField(`items[${index}].x`, {
-          label: "X",
-          value: iMapArea.x,
-        }),
-        PropertyPaneTextField(`items[${index}].y`, {
-          label: "Y",
-          value: iMapArea.y,
-        }),
-        PropertyPaneTextField(`items[${index}].width`, {
-          label: "Width",
-          value: iMapArea.width,
-        }),
-        PropertyPaneTextField(`items[${index}].height`, {
-          label: "Height",
-          value: iMapArea.height,
-        }),
-        PropertyPaneTextField(`items[${index}].url`, {
-          label: "Url",
-          value: iMapArea.url,
-        }),
-        PropertyPaneCheckbox(`items[${index}].openInNewWindow`, {
-          checked: iMapArea.openInNewWindow,
-          text: "Open in new window",
-        }),
-        PropertyPaneButton("deleteButton", {
-          text: "Delete",
-          buttonType: PropertyPaneButtonType.Command,
-          icon: "RecycleBin",
-          onClick: this.onDeleteButtonClick.bind(this, index),
-        }),
-        PropertyPaneButton("addButton", {
-          text: "Add",
-          buttonType: PropertyPaneButtonType.Command,
-          icon: "CirclePlus",
-          onClick: this.onAddButtonClick.bind(this),
-        }),
-      ],
-    };
+    if (iMapArea.imapType === "Path") {
+
+      return {
+        groupName: `Mapped Area ${index + 1}`,
+        groupFields: [
+          PropertyPaneDropdown(`items[${index}].imapType`, {
+            label: "Map Area Type",
+            selectedKey: iMapArea.imapType,
+            options: [
+              { key: "Rectangle", text: "Rectangle"},
+              { key: "Path", text: "Path"},
+            ],
+          }),
+          PropertyPaneTextField(`items[${index}].d`, {
+            label: "D",
+            value: iMapArea.d,
+          }),
+          PropertyPaneTextField(`items[${index}].url`, {
+            label: "Url",
+            value: iMapArea.url,
+          }),
+          PropertyPaneCheckbox(`items[${index}].openInNewWindow`, {
+            checked: iMapArea.openInNewWindow,
+            text: "Open in new window",
+          }),
+          PropertyPaneButton("deleteButton", {
+            text: "Delete",
+            buttonType: PropertyPaneButtonType.Command,
+            icon: "RecycleBin",
+            onClick: this.onDeleteButtonClick.bind(this, index),
+          }),
+          PropertyPaneButton("addButton", {
+            text: "Add",
+            buttonType: PropertyPaneButtonType.Command,
+            icon: "CirclePlus",
+            onClick: this.onAddButtonClick.bind(this),
+          }),
+        ],
+      };
+
+    } else {
+      return {
+        groupName: `Mapped Area ${index + 1}`,
+        groupFields: [
+          PropertyPaneDropdown(`items[${index}].imapType`, {
+            label: "Map Area Type",
+            selectedKey: iMapArea.imapType,
+            options: [
+              { key: "Rectangle", text: "Rectangle"},
+              { key: "Path", text: "Path"},
+            ],
+          }),
+          PropertyPaneTextField(`items[${index}].x`, {
+            label: "X",
+            value: iMapArea.x,
+          }),
+          PropertyPaneTextField(`items[${index}].y`, {
+            label: "Y",
+            value: iMapArea.y,
+          }),
+          PropertyPaneTextField(`items[${index}].width`, {
+            label: "Width",
+            value: iMapArea.width,
+          }),
+          PropertyPaneTextField(`items[${index}].height`, {
+            label: "Height",
+            value: iMapArea.height,
+          }),
+          PropertyPaneTextField(`items[${index}].url`, {
+            label: "Url",
+            value: iMapArea.url,
+          }),
+          PropertyPaneCheckbox(`items[${index}].openInNewWindow`, {
+            checked: iMapArea.openInNewWindow,
+            text: "Open in new window",
+          }),
+          PropertyPaneButton("deleteButton", {
+            text: "Delete",
+            buttonType: PropertyPaneButtonType.Command,
+            icon: "RecycleBin",
+            onClick: this.onDeleteButtonClick.bind(this, index),
+          }),
+          PropertyPaneButton("addButton", {
+            text: "Add",
+            buttonType: PropertyPaneButtonType.Command,
+            icon: "CirclePlus",
+            onClick: this.onAddButtonClick.bind(this),
+          }),
+        ],
+      };
+    }
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-
     var pages = [];
 
     pages.push({
@@ -143,11 +195,9 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
               onClick: this.onAddButtonClick.bind(this),
             }),
           ],
-        }
+        },
       ],
     });
-
-
 
     console.log(this.properties);
     this.properties.items.forEach((item, index) => {
@@ -155,13 +205,9 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
         header: {
           description: `Map Area ${index + 1}`,
         },
-        groups: [
-          this.createNewGroup(item, index)
-        ]
+        groups: [this.createNewGroup(item, index)],
       });
     });
-
-   
 
     return {
       pages: pages,
