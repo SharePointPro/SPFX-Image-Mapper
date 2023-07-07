@@ -11,6 +11,8 @@ How it works:
 user clicks on the areas and is directed to url.
 
 App uses <SVG> to create clickable sections.
+
+hint: I use https://boxy-svg.com/app to determine the SVG paths
   
 # Properties
 ![Properties Pane](https://raw.githubusercontent.com/SharePointPro/SPFX-Image-Mapper/main/readme%20Images/Image%20Mapper%201.png)
