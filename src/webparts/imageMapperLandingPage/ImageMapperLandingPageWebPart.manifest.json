@@ -18,7 +18,9 @@
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "Image Mapper Landing Page",
-      "items": []
+      "items": [],
+      "imageHorizontalPosition": "center",
+      "imageVerticalPosition": "start"
     }
   }]
 }

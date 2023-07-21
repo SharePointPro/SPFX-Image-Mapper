@@ -1,9 +1,10 @@
 @import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .imageMapperLandingPage {
+  display: flex;
   height: calc(100vh - 270px);
   svg {
-    height: 100%;
+    display: block;
   }
   .image {
     width: 100%;
@@ -84,6 +85,6 @@
       margin: 0 4px;
       vertical-align: top;
       display: inline-block;
-    }
+    }    
   }
 }

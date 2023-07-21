@@ -36,6 +36,8 @@ export interface IImageMapperLandingPageWebPartProps {
   imageUrl: string;
   imageHeight: string;
   imageWidth: string;
+  imageHorizontalPosition: string;
+  imageVerticalPosition: string;
   items: IMapArea[];
 }
 
@@ -47,6 +49,8 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
         imageUrl: this.properties.imageUrl,
         imageHeight: this.properties.imageHeight,
         imageWidth: this.properties.imageWidth,
+        imageHorizontalPosition: this.properties.imageHorizontalPosition,
+        imageVerticalPosition: this.properties.imageVerticalPosition,
         items: this.properties.items,
       });
 
@@ -71,7 +75,6 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
 
   private createNewGroup(iMapArea: IMapArea, index: number): any {
     if (iMapArea.imapType === "Path") {
-
       return {
         groupName: `Mapped Area ${index + 1}`,
         groupFields: [
@@ -79,8 +82,8 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
             label: "Map Area Type",
             selectedKey: iMapArea.imapType,
             options: [
-              { key: "Rectangle", text: "Rectangle"},
-              { key: "Path", text: "Path"},
+              { key: "Rectangle", text: "Rectangle" },
+              { key: "Path", text: "Path" },
             ],
           }),
           PropertyPaneTextField(`items[${index}].d`, {
@@ -109,7 +112,6 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
           }),
         ],
       };
-
     } else {
       return {
         groupName: `Mapped Area ${index + 1}`,
@@ -118,8 +120,8 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
             label: "Map Area Type",
             selectedKey: iMapArea.imapType,
             options: [
-              { key: "Rectangle", text: "Rectangle"},
-              { key: "Path", text: "Path"},
+              { key: "Rectangle", text: "Rectangle" },
+              { key: "Path", text: "Path" },
             ],
           }),
           PropertyPaneTextField(`items[${index}].x`, {
@@ -183,6 +185,22 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
             PropertyPaneTextField("imageWidth", {
               label: "Image Width",
             }),
+            PropertyPaneDropdown("imageHorizontalPosition", {
+              label: "Image Horizontal Position",
+              options: [
+                { key: "left", text: "Left" },
+                { key: "center", text: "Center" },
+                { key: "right", text: "Right" },
+              ],
+            }),
+            PropertyPaneDropdown("imageVerticalPosition", {
+              label: "Image Vertical Position",
+              options: [
+                { key: "start", text: "Top" },
+                { key: "center", text: "Center" },
+                { key: "end", text: "Bottom" },
+              ],
+            }),
           ],
         },
         {
@@ -212,5 +230,21 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
     return {
       pages: pages,
     };
+  }
+
+  protected onPropertyPaneFieldChanged(
+    propertyPath: string,
+    oldValue: any,
+    newValue: any
+  ): void {
+    if (propertyPath === "imageUrl" && newValue) {
+      const image = new Image();
+      image.src = newValue;
+
+      image.onload = () => {
+        this.properties.imageHeight = image.height.toString();
+        this.properties.imageWidth = image.width.toString();
+      };
+    }
   }
 }

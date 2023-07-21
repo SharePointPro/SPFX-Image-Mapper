@@ -1,18 +1,18 @@
 /* tslint:disable */
 require("./ImageMapperLandingPage.module.css");
 const styles = {
-  imageMapperLandingPage: 'imageMapperLandingPage_02ee115a',
-  image: 'image_02ee115a',
-  pointer: 'pointer_02ee115a',
-  container: 'container_02ee115a',
-  row: 'row_02ee115a',
-  column: 'column_02ee115a',
-  'ms-Grid': 'ms-Grid_02ee115a',
-  title: 'title_02ee115a',
-  subTitle: 'subTitle_02ee115a',
-  description: 'description_02ee115a',
-  button: 'button_02ee115a',
-  label: 'label_02ee115a'
+  imageMapperLandingPage: 'imageMapperLandingPage_6b53415b',
+  image: 'image_6b53415b',
+  pointer: 'pointer_6b53415b',
+  container: 'container_6b53415b',
+  row: 'row_6b53415b',
+  column: 'column_6b53415b',
+  'ms-Grid': 'ms-Grid_6b53415b',
+  title: 'title_6b53415b',
+  subTitle: 'subTitle_6b53415b',
+  description: 'description_6b53415b',
+  button: 'button_6b53415b',
+  label: 'label_6b53415b'
 };
 
 export default styles;

@@ -5,5 +5,7 @@ export interface IImageMapperLandingPageProps {
   imageUrl: string;
   imageHeight: string;
   imageWidth: string;
+  imageHorizontalPosition: string;
+  imageVerticalPosition: string;
   items: IMapArea[];
 }

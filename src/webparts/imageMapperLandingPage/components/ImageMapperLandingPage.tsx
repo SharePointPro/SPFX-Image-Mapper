@@ -16,14 +16,15 @@ export default class ImageMapperLandingPage extends React.Component<IImageMapper
   public render(): React.ReactElement<IImageMapperLandingPageProps> {
     
     return (
-      <div className={styles.imageMapperLandingPage}>
-
+      <div className={styles.imageMapperLandingPage} 
+        style={{justifyContent: this.props.imageHorizontalPosition, alignItems: this.props.imageVerticalPosition}}
+        >
         <svg         
         version="1.1" 
         xmlns="http://www.w3.org/2000/svg" 
         xmlnsXlink="http://www.w3.org/1999/xlink" 
-        viewBox="0 0 1600 902">
-          <image width={this.props.imageWidth} height={this.props.imageHeight} xlinkHref={this.props.imageUrl}></image>
+        viewBox={"0 0 " + this.props.imageWidth + " " + this.props.imageHeight} width={this.props.imageWidth} height={this.props.imageHeight}>
+          <image xlinkHref={this.props.imageUrl}></image>
 
           {this.props.items.map((imageMapping, index) => {
             console.log("imageMapping", imageMapping);
