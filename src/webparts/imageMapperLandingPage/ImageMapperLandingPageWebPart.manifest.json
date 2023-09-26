@@ -20,7 +20,8 @@
       "description": "Image Mapper Landing Page",
       "items": [],
       "imageHorizontalPosition": "center",
-      "imageVerticalPosition": "start"
+      "imageVerticalPosition": "start",
+      "scale": 100
     }
   }]
 }

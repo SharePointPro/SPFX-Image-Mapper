@@ -8,6 +8,7 @@ import {
   PropertyPaneCheckbox,
   PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
+  PropertyPaneSlider,
   PropertyPaneTextField,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
@@ -38,6 +39,7 @@ export interface IImageMapperLandingPageWebPartProps {
   imageWidth: string;
   imageHorizontalPosition: string;
   imageVerticalPosition: string;
+  scale: number;
   items: IMapArea[];
 }
 
@@ -51,6 +53,7 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
         imageWidth: this.properties.imageWidth,
         imageHorizontalPosition: this.properties.imageHorizontalPosition,
         imageVerticalPosition: this.properties.imageVerticalPosition,
+        scale: this.properties.scale,
         items: this.properties.items,
       });
 
@@ -200,6 +203,11 @@ export default class ImageMapperLandingPageWebPart extends BaseClientSideWebPart
                 { key: "center", text: "Center" },
                 { key: "end", text: "Bottom" },
               ],
+            }),
+            PropertyPaneSlider("scale", {
+              label: "Scale",
+              min: 0,
+              max: 100,
             }),
           ],
         },
